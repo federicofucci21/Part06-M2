@@ -18,6 +18,11 @@ var traverseDomAndCollectElements = function(matchFunc, startEl) {
 
 var selectorTypeMatcher = function(selector) {
   // tu código aquí
+  let firstCar = selector[0];
+  if(firstCar==='#') return 'id';
+  if(firstCar==='.') return 'class';
+  if(selector.split('.').length === 2) return 'tag.class'
+  else return 'tag';
   
 };
 
