@@ -35,13 +35,31 @@ var matchFunctionMaker = function(selector) {
   var selectorType = selectorTypeMatcher(selector);
   var matchFunction;
   if (selectorType === "id") { 
-   
+    matchFunction = function(element){
+      return '#' + element.id === selector;
+    }
   } else if (selectorType === "class") {
-    
+    matchFunction = function(element){
+      let classes = element.classList;
+      for (let i = 0; i < classes.length; i++) {
+        if('.'+classes[i]===selector){ 
+          return true
+        }; 
+      }
+      return false; 
+    } 
+
   } else if (selectorType === "tag.class") {
+    matchFunction=function(element){
+      let [t, c] = selector.split('.');
+      return matchFunctionMaker(t)(element) && matchFunctionMaker('.'+c)(element);
+    }
     
   } else if (selectorType === "tag") {
-    
+    matchFunction = function(element){
+      return element.tagName.toLowerCase()===selector.toLowerCase(); 
+      
+    }
   }
   return matchFunction;
 };
